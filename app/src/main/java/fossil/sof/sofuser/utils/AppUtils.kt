@@ -12,6 +12,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -25,6 +27,15 @@ object AppUtils {
      */
     fun getFacebookAppID(): String {
         return App.app.sharedPreferences.getString(PreferencesKeys.FACEBOOK_APP_ID, Constants.EMPTY)
+    }
+
+    fun convertLongToStringDate(date: Long): String {
+        var fm = SimpleDateFormat("dd-MM-yyyy")
+        var calendar =Calendar.getInstance()
+        calendar.time = Date(date)
+        calendar.add(Calendar.SECOND,date.toInt())
+        var date = calendar.time
+        return fm.format(date)
     }
 
     fun isFHD(context: Activity) {

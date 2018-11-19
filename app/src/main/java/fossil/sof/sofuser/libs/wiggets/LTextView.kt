@@ -35,7 +35,7 @@ class LTextView(context: Context,attrs: AttributeSet?) : android.support.v7.widg
             typedArray.recycle()
         }
 
-        val typeface = UIUtils.getTypeFace()
+        val typeface = UIUtils.getTypeFace(ctx)
         if (requestBold) {
             setTypeface(typeface, Typeface.BOLD)
         } else {

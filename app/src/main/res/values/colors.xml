@@ -12,5 +12,5 @@
     <color name="cyan">#00bcd4</color>
 
     <color name="black_overlay">#38000000</color>
-    <color name="no_color">#00000000</color>
+    <color name="no_background">#00000000</color>
 </resources>

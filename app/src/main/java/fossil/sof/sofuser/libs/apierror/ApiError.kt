@@ -15,6 +15,7 @@ class ApiError(private val errorCode: Int, val errorMessage: String) {
         fun fromThrowable(throwable: Throwable): ApiError {
             if (throwable is ApiException) {
                 Timber.e("ApiException")
+                throwable.printStackTrace()
                 return throwable.apiError
             } else if (throwable is SocketTimeoutException || throwable is UnknownHostException) {
                 Timber.e("SocketTimeoutException || UnknownHostException")

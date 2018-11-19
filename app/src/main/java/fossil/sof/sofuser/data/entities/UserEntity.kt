@@ -1,47 +1,35 @@
 package fossil.sof.sofuser.data.entities
 
-import fossil.sof.sofuser.domain.models.User
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class UserEntity : User {
-    private var account_id = 0
-    private var is_employee = false
-    private var last_modified_date = 0L
-    private var last_access_date = 0L
-    private var creation_date = 0L
-    private var reputation_change_year = 0
-    private var reputation_change_quarter = 0
-    private var reputation_change_month = 0
-    private var reputation_change_week = 0
-    private var reputation_change_day = 0
-    private var reputation = 0
-    private var user_id = 0
-    private var accept_rate = 0
-    private var user_type = ""
-    private var location = ""
-    private var website_url = ""
-    private var link = ""
-    private var profile_image = ""
-    private var display_name = ""
-
-
-    override fun GetAccountId() = account_id
-    override fun isEmployee() = is_employee
-
-    override fun getLastModifiedDate() = last_modified_date
-    override fun getLastAccessDate() = last_access_date
-    override fun getCreationDate() = creation_date
-    override fun getReputationChangeYear() = reputation_change_year
-    override fun getReputationChangeQuarter() = reputation_change_quarter
-    override fun getReputationChangeMonth() = reputation_change_month
-    override fun getReputationChangeWeek() = reputation_change_week
-    override fun getReputationChangeDay() = reputation_change_day
-    override fun getReputation() = reputation
-    override fun getUserId() = user_id
-    override fun getAcceptRate() = accept_rate
-    override fun getUserType() = user_type
-    override fun getLocation() = location
-    override fun getWebsiteUrl() = website_url
-    override fun getLink() = link
-    override fun getProfileImage() = profile_image
-    override fun getDisplayName() = display_name
+@Parcelize
+@Entity(tableName = "user")
+data class UserEntity(
+        @PrimaryKey
+        @ColumnInfo(name = "user_id ") var user_id: Int,
+        @ColumnInfo(name = "account_id ") var account_id: Int,
+        @ColumnInfo(name = "is_employee ") var is_employee: Boolean,
+        @ColumnInfo(name = "last_modified_date ") var last_modified_date: Long,
+        @ColumnInfo(name = "last_access_date ") var last_access_date: Long,
+        @ColumnInfo(name = "creation_date ") var creation_date: Long,
+        @ColumnInfo(name = "reputation_change_year ") var reputation_change_year: Int,
+        @ColumnInfo(name = "reputation_change_quarter ") var reputation_change_quarter: Int,
+        @ColumnInfo(name = "reputation_change_month ") var reputation_change_month: Int,
+        @ColumnInfo(name = "reputation_change_week ") var reputation_change_week: Int,
+        @ColumnInfo(name = "reputation_change_day ") var reputation_change_day: Int,
+        @ColumnInfo(name = "reputation ") var reputation: Int,
+        @ColumnInfo(name = "isBookmark ") var isBookmark: Boolean,
+        @ColumnInfo(name = "accept_rate ") var accept_rate: Int,
+        @ColumnInfo(name = "user_type ") var user_type: String,
+        @ColumnInfo(name = "location ") var location: String,
+        @ColumnInfo(name = "website_url ") var website_url: String,
+        @ColumnInfo(name = "link ") var link: String,
+        @ColumnInfo(name = "profile_image ") var profile_image: String,
+        @ColumnInfo(name = "display_name ") var display_name: String
+):Parcelable {
 }

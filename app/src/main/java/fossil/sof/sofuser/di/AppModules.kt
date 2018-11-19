@@ -18,6 +18,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import fossil.sof.sofuser.data.room_repository.UserRepo
 import fossil.sof.sofuser.domain.usecases.UserUseCase
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
@@ -85,7 +86,7 @@ open class AppModules(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideUseCaseEnvironment(apiServices: ApiService, localService: LocalServices) = UseCaseEnvironment(apiServices, localService)
+    fun provideUseCaseEnvironment(apiServices: ApiService, localService: LocalServices,userRepo: UserRepo) = UseCaseEnvironment(apiServices, localService,userRepo)
 
     @Provides
     @Singleton
@@ -93,7 +94,7 @@ open class AppModules(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideLocalService(sharedPreferences: SharedPreferences, gson: Gson): LocalServices = LocalServicesImp(sharedPreferences)
+    fun provideLocalService(sharedPreferences: SharedPreferences, gson: Gson): LocalServices = LocalServicesImp(sharedPreferences,gson)
 
     @Provides
     @Singleton
@@ -117,9 +118,9 @@ open class AppModules(private val application: Application) {
             builder.addInterceptor { chain ->
                 val original = chain.request()
                 val request = original.newBuilder()
-                        .header("Authorization", "Bearer 7eb5e024ac5c82c53c2a6081f21dc0e5046efea07e3ae2705c85a080def991f0")
-                        .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36")
-                        .header("Viewport-Width", "1080")
+//                        .header("Authorization", "Bearer 7eb5e024ac5c82c53c2a6081f21dc0e5046efea07e3ae2705c85a080def991f0")
+//                        .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36")
+//                        .header("Viewport-Width", "1080")
                         .method(original.method(), original.body())
                         .build()
                 chain.proceed(request)
@@ -171,5 +172,8 @@ open class AppModules(private val application: Application) {
     @Provides
     @Singleton
     fun privideUserUseCase(useCaseEnvironment: UseCaseEnvironment) = UserUseCase(useCaseEnvironment)
+    @Provides
+    @Singleton
+    fun proviceUsecaseRepo() = UserRepo(application)
 
 }

@@ -2,7 +2,7 @@ package fossil.sof.sofuser.application
 
 object Configs {
     val IS_DEBUG = true
-    val SERVER_URL = "https://unsplash.com/napi/"
+    val SERVER_URL = "https://api.stackexchange.com/2.2/"
 
     val CONNECTION_TIME_OUT: Long = 30
     val READ_TIME_OUT: Long = 35
@@ -10,6 +10,7 @@ object Configs {
 
 object Constants {
     val EMPTY = ""
+    val ARRAY_EMPTY = "[]"
     val CHARSET = "UTF-8"
     val UNKNOWN = "unknown"
 
@@ -55,22 +56,8 @@ object PreferencesKeys {
 
     // UI
     val LANGUAGE_ID = "language_id"
-
     // App
     val FACEBOOK_APP_ID = "FACEBOOK_APP_ID"
-    val CURRENCY = "CURRENCY"
-    val FAN_PAGE = "FAN_PAGE"
-    val APP_CONFIG = "APP_CONFIG"
 
-    val USER_TOKEN = "GUEST_TOKEN"
-    val SOURCE_CHOOSE = "SOURCE_CHOOSE"
-    val INTERVAL = "INTERVAL_AUTO_CHANGE"
-    val ENABLE_AUTO_SOURCE = "AUTO_CHANGE_FROM_SOURCE"
-    val ENABLE_AUTO_AI = "AUTO_CHANGE_FROM_AI"
-    val WIFI_ONLY = "WIFI_ONLY"
-    val UUID = "UUID"
-    val DEVICE_ID = "DEVICE_ID"
-    val ADVID = "ADVID"
-    val GCM_ID = "gcm_id"
-    val LOGIN_TYPE = "LOGIN_TYPE"
+    val USER_BOOKMARK = "USER_BOOKMARK"
 }

@@ -4,7 +4,8 @@ import fossil.sof.sofuser.application.ErrorCodes
 import fossil.sof.sofuser.application.ErrorMessage
 import fossil.sof.sofuser.domain.services.ApiService
 import io.reactivex.Single
-import fossil.sof.sofuser.data.api.responses.LoadMoreUsers
+import fossil.sof.sofuser.data.api.responses.LoadMoreData
+import fossil.sof.sofuser.domain.models.Reputation
 import fossil.sof.sofuser.domain.models.User
 import fossil.sof.sofuser.libs.apierror.ApiError
 import fossil.sof.sofuser.libs.exceptions.ApiException
@@ -16,15 +17,32 @@ import io.reactivex.schedulers.Schedulers
  * Created by ninhvanluyen on 16/11/18.
  */
 class ApiServicesImp(val httpRequest: HttpRequest) : ApiService {
-    override fun getListUser(page: Int): Single<LoadMoreUsers<out User>> {
+    override fun getListUser(page: Int): Single<LoadMoreData<out User>> {
         return Single.defer {
             if (!DeviceUtils.isNetworkAvailable()) {
                 Single.error(ApiException(ApiError(ErrorCodes.NET_WORK_PROBLEM, ErrorMessage.NET_WORK_PROBLEM)))
             } else {
                 val option = HashMap<String, String>()
-                option.put("per_page", "21")
-                option.put("orientation", "portrait")
+                option.put("page", "$page")
+                option.put("pagesize", "30")
+                option.put("site", "stackoverflow")
                 httpRequest.getListUsers(option)
+                        .compose(ApiTransformer())
+                        .subscribeOn(Schedulers.io())
+            }
+        }
+    }
+
+    override fun getReputation(page: Int,userID:String): Single<LoadMoreData<out Reputation>> {
+        return Single.defer {
+            if (!DeviceUtils.isNetworkAvailable()) {
+                Single.error(ApiException(ApiError(ErrorCodes.NET_WORK_PROBLEM, ErrorMessage.NET_WORK_PROBLEM)))
+            } else {
+                val option = HashMap<String, String>()
+                option.put("page", "$page")
+                option.put("pagesize", "30")
+                option.put("site", "stackoverflow")
+                httpRequest.getListReputation(userID,option)
                         .compose(ApiTransformer())
                         .subscribeOn(Schedulers.io())
             }
