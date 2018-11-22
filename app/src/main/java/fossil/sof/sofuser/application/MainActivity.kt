@@ -1,11 +1,12 @@
 package fossil.sof.sofuser.application
 
 import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import fossil.sof.sofuser.R
+import fossil.sof.sofuser.application.news_feed.FragmentBookmarked
 import fossil.sof.sofuser.application.news_feed.FragmentNewsFeed
+import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.databinding.ActivityMainBinding
 import fossil.sof.sofuser.libs.BaseActivity
 import fossil.sof.sofuser.libs.qualifers.RequireActivityViewModel
@@ -20,7 +21,7 @@ class MainActivity : BaseActivity<MainViewModel.ViewModel>() {
         viewDataBinding.viewModel = viewModel
         val fragments = ArrayList<Fragment>()
         fragments.add(FragmentNewsFeed.getInstant())
-        fragments.add(FragmentNewsFeed.getInstant())
+        fragments.add(FragmentBookmarked.getInstant())
         val adapter = PagerAdapter(supportFragmentManager, fragments)
         viewDataBinding.viewPager.adapter = adapter
         viewDataBinding.navigatorButton.createView(null, mutableListOf(R.drawable.ic_user, R.drawable.ic_folder_special), R.color.colorPrimaryDark, R.color.gray, R.color.white, 0)

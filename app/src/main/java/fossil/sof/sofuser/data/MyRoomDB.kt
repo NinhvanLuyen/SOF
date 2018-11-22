@@ -7,7 +7,7 @@ import android.content.Context
 import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.data.room_dao.UserDao
 
-@Database(entities = [(UserEntity::class)], version = 1)
+@Database(entities = [(UserEntity::class)], version = 3)
 abstract class MyRoomDB : RoomDatabase() {
     abstract fun getUserDao(): UserDao
 

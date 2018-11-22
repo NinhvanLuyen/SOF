@@ -1,5 +1,6 @@
 package fossil.sof.sofuser.data.room_dao
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -14,9 +15,11 @@ interface UserDao {
     @Query("DELETE FROM user")
     fun deleteAll()
 
-    @Query("DELETE FROM user where `user_id ` =:userID")
-    fun deleteUser(userID: Int)
+    @Query("DELETE FROM user where `user_id ` = :user_id ")
+    fun deleteUser(user_id: Int)
 
     @Query("SELECT * from user")
     fun getAll(): List<UserEntity>
+    @Query("SELECT * from user")
+    fun getAllLiveData():LiveData<List<UserEntity>>
 }

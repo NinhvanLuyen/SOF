@@ -4,15 +4,17 @@ import android.databinding.ObservableField
 import android.view.View
 import fossil.sof.sofuser.data.api.responses.LoadMoreData
 import fossil.sof.sofuser.domain.models.Reputation
-import fossil.sof.sofuser.domain.models.User
+import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.libs.ActivityViewModel
 import fossil.sof.sofuser.libs.Environment
 import fossil.sof.sofuser.libs.tranforms.Transformers
+import fossil.sof.sofuser.utils.UIUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 interface UserDetailViewModel {
+
     class Data {
         var avatar = ObservableField<String>()
         var name = ObservableField<String>()
@@ -22,6 +24,7 @@ interface UserDetailViewModel {
         var notfound = ObservableField<Boolean>()
         var showLoading = ObservableField<Boolean>()
         var loadDataError = ObservableField<Boolean>()
+        var isBoomarked = ObservableField<Boolean>()
     }
 
     class ViewModel(environment: Environment) : ActivityViewModel(), Input, OutPut, Errors {
@@ -34,7 +37,7 @@ interface UserDetailViewModel {
         var userUseCase = environment.userUseCase;
         var canLoadmore = true
         var currentPage = 1
-        private lateinit var user: User
+        private lateinit var user: UserEntity
         var renderData: BehaviorSubject<Pair<List<Reputation>, Boolean>> = BehaviorSubject.create()
         override fun renderData(): Observable<Pair<List<Reputation>, Boolean>> = renderData
         private var nextPage = PublishSubject.create<Boolean>()
@@ -73,13 +76,16 @@ interface UserDetailViewModel {
 
         }
 
+        fun getUser() = user
+
         init {
             intent().subscribe {
                 user = it.getParcelableExtra("user")
-                data.avatar.set(user.getProfile_image())
-                data.name.set(user.getDisplay_name())
-                data.location.set(user.getLocation())
-                data.reputation.set(user.getReputationFormat())
+                data.isBoomarked.set(user.isBookmark)
+                data.avatar.set(user.profile_image)
+                data.name.set(user.display_name)
+                data.location.set(user.location)
+                data.reputation.set(UIUtils.getShortNumberFormat(user.reputation))
                 if (listDataTerm.isEmpty()) {
                     data.showLoading.set(true)
                     callApi.onNext(currentPage)
@@ -117,13 +123,27 @@ interface UserDetailViewModel {
 
         }
 
-        fun call(nextPage: Int): Observable<LoadMoreData<out Reputation>> = userUseCase.getListReputation(nextPage, "${user.getUser_id()}")
+        fun call(nextPage: Int): Observable<LoadMoreData<out Reputation>> = userUseCase.getListReputation(nextPage, "${user.user_id}")
+
+        override fun bookmarkUser() {
+            user.isBookmark = true
+            userUseCase.bookMarkUser(user)
+                    .subscribe()
+        }
+
+        override fun unBookmarkUser() {
+            user.isBookmark = false
+            userUseCase.unBookMarkUser(user)
+                    .subscribe()
+        }
 
     }
 
     interface Input {
         fun swipeRefresh()
         fun nextPage()
+        fun bookmarkUser()
+        fun unBookmarkUser()
     }
 
     interface OutPut {

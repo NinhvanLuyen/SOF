@@ -13,7 +13,6 @@ data class UserEntity(
         @PrimaryKey
         @ColumnInfo(name = "user_id ") var user_id: Int,
         @ColumnInfo(name = "account_id ") var account_id: Int,
-        @ColumnInfo(name = "is_employee ") var is_employee: Boolean,
         @ColumnInfo(name = "last_modified_date ") var last_modified_date: Long,
         @ColumnInfo(name = "last_access_date ") var last_access_date: Long,
         @ColumnInfo(name = "creation_date ") var creation_date: Long,
@@ -31,5 +30,24 @@ data class UserEntity(
         @ColumnInfo(name = "link ") var link: String,
         @ColumnInfo(name = "profile_image ") var profile_image: String,
         @ColumnInfo(name = "display_name ") var display_name: String
-):Parcelable {
+) : Parcelable {
+    constructor() : this(0,
+            0,
+            0L,
+            0L,
+            0L,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            false,
+            0,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "")
 }

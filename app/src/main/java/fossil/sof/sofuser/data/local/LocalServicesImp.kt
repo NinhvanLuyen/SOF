@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import fossil.sof.sofuser.domain.services.LocalServices
 import fossil.sof.sofuser.application.Constants
 import fossil.sof.sofuser.application.PreferencesKeys
-import fossil.sof.sofuser.domain.models.User
+import fossil.sof.sofuser.data.entities.UserEntity
 import io.reactivex.Single
 
 
@@ -14,30 +14,30 @@ import io.reactivex.Single
  */
 class LocalServicesImp(private val sharedPreferences: SharedPreferences, private val gson: Gson) : LocalServices {
 
-    override fun getUserBookmarked(): Single<MutableList<User>> {
+    override fun getUserBookmarked(): Single<MutableList<UserEntity>> {
         return Single.create { t ->
             run {
                 val data = sharedPreferences.getString(PreferencesKeys.USER_BOOKMARK, Constants.EMPTY)
-                var ls = gson.fromJson(data, Array<User>::class.java)
+                var ls = gson.fromJson(data, Array<UserEntity>::class.java)
                 t.onSuccess(ls.toMutableList())
             }
         }
     }
 
-    override fun addBookmark(user: User): Single<Boolean> {
+    override fun addBookmark(user: UserEntity): Single<Boolean> {
         return Single.create { t ->
             run {
                 val data = sharedPreferences.getString(PreferencesKeys.USER_BOOKMARK, Constants.EMPTY)
-                var ls = arrayOf<User>()
+                var ls = arrayOf<UserEntity>()
                 if (data.isNotEmpty())
-                    ls = gson.fromJson(data, Array<User>::class.java)
+                    ls = gson.fromJson(data, Array<UserEntity>::class.java)
                 //check exist
                 var exist = false
                 var lsTerm = ls.toMutableList()
                 var iterator = lsTerm.iterator()
                 if (ls.isNotEmpty())
                     while (iterator.hasNext()) {
-                        if (iterator.next().getUser_id() == user.getUser_id()) {
+                        if (iterator.next().user_id == user.user_id) {
                             exist = true
                             iterator.remove()
                         }

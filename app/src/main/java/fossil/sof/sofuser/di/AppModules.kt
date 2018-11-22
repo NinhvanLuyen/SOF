@@ -118,9 +118,6 @@ open class AppModules(private val application: Application) {
             builder.addInterceptor { chain ->
                 val original = chain.request()
                 val request = original.newBuilder()
-//                        .header("Authorization", "Bearer 7eb5e024ac5c82c53c2a6081f21dc0e5046efea07e3ae2705c85a080def991f0")
-//                        .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36")
-//                        .header("Viewport-Width", "1080")
                         .method(original.method(), original.body())
                         .build()
                 chain.proceed(request)

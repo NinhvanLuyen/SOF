@@ -1,7 +1,6 @@
 package fossil.sof.sofuser.application.news_feed
 
 import android.databinding.ObservableField
-import fossil.sof.sofuser.data.api.responses.LoadMoreData
 import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.libs.Environment
 import fossil.sof.sofuser.libs.FragmentViewModel
@@ -10,15 +9,14 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-interface NewFeedViewModel {
+interface BookmarkedViewModel {
     interface Input {
         fun swipeRefresh()
-        fun nextPage()
         fun bookMarkUser(user: UserEntity, isBookmark: Boolean)
     }
 
     interface OutPut {
-        fun renderData(): Observable<Pair<List<UserEntity>, Boolean>>
+        fun renderData(): Observable<MutableList<UserEntity>>
         fun closeSwipe(): Observable<Boolean>
         fun notiMyBookmark(): Observable<UserEntity>
 
@@ -43,21 +41,13 @@ interface NewFeedViewModel {
         var input = this
         var output = this
         var errors = this
-        var listDataTerm = arrayListOf<UserEntity>()
+        var listDataTerm = mutableListOf<UserEntity>()
         var userUseCase = environment.userUseCase;
-        var canLoadmore = true
-        var currentPage = 1
-        var renderData: BehaviorSubject<Pair<List<UserEntity>, Boolean>> = BehaviorSubject.create()
-        override fun renderData(): Observable<Pair<List<UserEntity>, Boolean>> = renderData
-        private var nextPage = PublishSubject.create<Boolean>()
+        var renderData: BehaviorSubject<MutableList<UserEntity>> = BehaviorSubject.create()
+        override fun renderData(): Observable<MutableList<UserEntity>> = renderData
         private var closeSwipe = PublishSubject.create<Boolean>()
         private var notyUserBookmark = BehaviorSubject.create<UserEntity>()
-        private var callApi = PublishSubject.create<Int>()
-        lateinit var loadData: Observable<LoadMoreData<UserEntity>>
-        override fun nextPage() {
-            nextPage.onNext(true)
-
-        }
+        lateinit var loadData: Observable<MutableList<UserEntity>>
 
         override fun notiMyBookmark(): Observable<UserEntity> = notyUserBookmark
 
@@ -65,7 +55,7 @@ interface NewFeedViewModel {
                 .map {
                     data.showLoading.set(false)
                     if (listDataTerm.size > 0) {
-                        renderData.onNext(Pair(emptyList(), false))
+                        renderData.onNext(mutableListOf())
                         it.errorMessage
                     } else {
                         data.showError.set(true)
@@ -81,10 +71,8 @@ interface NewFeedViewModel {
             listDataTerm.clear()
             data.showLoading.set(true)
             data.showError.set(false)
-            renderData.onNext(Pair(emptyList<UserEntity>(), false))
-            currentPage = 1
-            callApi.onNext(currentPage)
-            nextPage.onNext(true)
+            renderData.onNext(mutableListOf())
+            loadData.subscribe()
 
         }
 
@@ -93,31 +81,26 @@ interface NewFeedViewModel {
                 data.name.set(it.getString("params", ""))
                 if (listDataTerm.isEmpty()) {
                     data.showLoading.set(true)
-                    callApi.onNext(currentPage)
-                    nextPage.onNext(true)
                 } else {
-                    renderData.onNext(Pair(listDataTerm, canLoadmore))
+                    renderData.onNext(listDataTerm)
                 }
             }
-            loadData = callApi.compose<Int>(Transformers.takeWhen(nextPage))
-                    .switchMap(this::call)
+
+
+            loadData = userUseCase.getListBookMarkUser()
                     .doOnError { loadData.subscribe() }
                     .compose(Transformers.pipeApiErrorTo(apiError))
                     .compose(bindToLifecycle())
                     .doOnNext {
                         data.showLoading.set(false)
-                        currentPage++
-                        callApi.onNext(currentPage)
-                        canLoadmore = (currentPage < 1000)
-                        renderData.onNext(Pair(it.getDatas(), canLoadmore))
-                        listDataTerm.addAll(it.getDatas())
+                        renderData.onNext(it)
+                        listDataTerm.addAll(it)
                     }
             loadData.subscribe()
 
         }
-        fun getListLiveData() = userUseCase.getLiveDataUser()
 
-        fun call(nextPage: Int): Observable<LoadMoreData<UserEntity>> = userUseCase.getListUser(nextPage)
+        fun getListLiveData() = userUseCase.getLiveDataUser()
 
         override fun bookMarkUser(user: UserEntity, isBookmark: Boolean) {
             if (isBookmark)

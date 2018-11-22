@@ -1,8 +1,8 @@
 package fossil.sof.sofuser.application.news_feed
 
-import fossil.sof.sofuser.domain.models.User
+import fossil.sof.sofuser.data.entities.UserEntity
 
 interface ItemDelegate {
-    fun viewDetailUser(user: User)
-    fun bookMarkUser(user: User, isBookmark: Boolean)
+    fun viewDetailUser(user: UserEntity,position:Int)
+    fun bookMarkUser(user: UserEntity, isBookmark: Boolean)
 }

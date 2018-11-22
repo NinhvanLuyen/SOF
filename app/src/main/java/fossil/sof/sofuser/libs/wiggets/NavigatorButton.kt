@@ -57,54 +57,6 @@ class NavigatorButton : LinearLayout {
      * @param background                   :is background of navigation button
      * @param current                      : is position default you want selected start is 0
      */
-    fun createView(titles: MutableList<String>, resource_color_seleted: Int, resource_color_not_selected: Int, background: Int, current: Int, titleSmall: Boolean = false) {
-        this.titles = titles
-        this.color_selected = resource_color_seleted
-        this.color_not_seleted = resource_color_not_selected
-        setBackgroundResource(background)
-        views = ArrayList()
-        for (i in titles.indices) {
-            val linearLayout = LinearLayout(context)
-            val title = TextView(context)
-            title.typeface = UIUtils.getTypeFace(context)
-            val indicator = View(context)
-
-            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
-            if (titleSmall)
-                title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-
-            indicator.setBackgroundResource(resource_color_seleted)
-            val indicatorLLParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIndicatorHeight)
-            indicatorLLParams.gravity = Gravity.BOTTOM
-            indicator.layoutParams = indicatorLLParams
-            title.text = titles[i]
-            title.setTextColor(ContextCompat.getColor(context, color_not_seleted))
-            val titlelayoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1F)
-            title.gravity = Gravity.CENTER
-            title.layoutParams = titlelayoutParams
-            linearLayout.orientation = LinearLayout.VERTICAL
-            linearLayout.gravity = Gravity.CENTER
-            title.setTextColor(ContextCompat.getColor(context, color_not_seleted))
-            if (current >= 0 && current == i) {
-                title.setTextColor(ContextCompat.getColor(context, color_selected))
-            }
-            linearLayout.addView(title)
-            linearLayout.addView(indicator)
-            linearLayout.setTag(R.string.tag, i)
-            linearLayout.setOnClickListener {
-                changeState(i)
-                changeViewpager(i)
-            }
-            val layoutParamLL = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f)
-            linearLayout.layoutParams = layoutParamLL
-
-            views!!.add(linearLayout)
-        }
-        for (i in views!!.indices) {
-            addView(views!![i])
-        }
-    }
-
     fun createView(titles: MutableList<String>?, resources: MutableList<Int>, resource_color_seleted: Int, resource_color_not_selected: Int, background: Int, current: Int) {
         this.titles = titles
         this.resource = resources

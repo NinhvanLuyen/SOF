@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="fossil.sof.sofuser.application.news_feed.NewFeedViewModel.ViewModel" />
+            type="fossil.sof.sofuser.application.news_feed.BookmarkedViewModel.ViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,12 +37,10 @@
                     android:layout_height="match_parent"
                     android:visibility="@{viewModel.data.showLoading?View.VISIBLE:View.GONE, default =gone}">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <ProgressBar
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="loadding..." />
+                        android:layout_gravity="center" />
                 </FrameLayout>
 
                 <TextView

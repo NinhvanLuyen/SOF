@@ -43,6 +43,7 @@
                     style="@style/text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:text="@{viewHolder.name}" />
 
 
@@ -64,7 +65,7 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_location"
                         android:gravity="start"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="@{viewHolder.localtion}"
                         tools:text="Vietnam" />
 

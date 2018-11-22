@@ -4,8 +4,8 @@ object Configs {
     val IS_DEBUG = true
     val SERVER_URL = "https://api.stackexchange.com/2.2/"
 
-    val CONNECTION_TIME_OUT: Long = 30
-    val READ_TIME_OUT: Long = 35
+    val CONNECTION_TIME_OUT: Long = 15
+    val READ_TIME_OUT: Long = 15
 }
 
 object Constants {

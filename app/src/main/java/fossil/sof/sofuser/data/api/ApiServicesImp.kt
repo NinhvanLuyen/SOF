@@ -5,8 +5,8 @@ import fossil.sof.sofuser.application.ErrorMessage
 import fossil.sof.sofuser.domain.services.ApiService
 import io.reactivex.Single
 import fossil.sof.sofuser.data.api.responses.LoadMoreData
+import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.domain.models.Reputation
-import fossil.sof.sofuser.domain.models.User
 import fossil.sof.sofuser.libs.apierror.ApiError
 import fossil.sof.sofuser.libs.exceptions.ApiException
 import fossil.sof.sofuser.libs.tranforms.ApiTransformer
@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by ninhvanluyen on 16/11/18.
  */
 class ApiServicesImp(val httpRequest: HttpRequest) : ApiService {
-    override fun getListUser(page: Int): Single<LoadMoreData<out User>> {
+    override fun getListUser(page: Int): Single<LoadMoreData<UserEntity>> {
         return Single.defer {
             if (!DeviceUtils.isNetworkAvailable()) {
                 Single.error(ApiException(ApiError(ErrorCodes.NET_WORK_PROBLEM, ErrorMessage.NET_WORK_PROBLEM)))
