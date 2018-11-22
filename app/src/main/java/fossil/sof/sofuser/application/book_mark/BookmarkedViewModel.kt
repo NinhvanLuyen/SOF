@@ -29,9 +29,8 @@ interface BookmarkedViewModel {
 
     class Data {
         var name = ObservableField<String>()
-        var showError = ObservableField<Boolean>(false)
+        var showNotFoundData = ObservableField<Boolean>(false)
         var showLoading = ObservableField<Boolean>(false)
-        var error = ObservableField<String>()
     }
 
     class ViewModel(environment: Environment) : FragmentViewModel(), Input, OutPut, Errors {
@@ -57,11 +56,7 @@ interface BookmarkedViewModel {
                     if (listDataTerm.size > 0) {
                         renderData.onNext(mutableListOf())
                         it.errorMessage
-                    } else {
-                        data.showError.set(true)
-                        data.error.set(it.errorMessage)
-                        ""
-                    }
+                    } else ""
                 }
 
         override fun closeSwipe(): Observable<Boolean> = closeSwipe
@@ -70,7 +65,7 @@ interface BookmarkedViewModel {
             closeSwipe.onNext(false)
             listDataTerm.clear()
             data.showLoading.set(true)
-            data.showError.set(false)
+            data.showNotFoundData.set(false)
             renderData.onNext(mutableListOf())
             loadData.subscribe()
 
@@ -92,6 +87,7 @@ interface BookmarkedViewModel {
                     .compose(Transformers.pipeApiErrorTo(apiError))
                     .compose(bindToLifecycle())
                     .doOnNext {
+                        data.showNotFoundData.set(it.isEmpty())
                         data.showLoading.set(false)
                         renderData.onNext(it)
                         listDataTerm.addAll(it)

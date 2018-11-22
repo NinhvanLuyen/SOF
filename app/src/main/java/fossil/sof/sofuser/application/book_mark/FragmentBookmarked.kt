@@ -24,7 +24,7 @@ class FragmentBookmarked : BaseFragment<BookmarkedViewModel.ViewModel>(), ItemDe
         viewModel!!.input.bookMarkUser(user, isBookmark)
     }
 
-    override fun viewDetailUser(user: UserEntity,position:Int) {
+    override fun viewDetailUser(user: UserEntity, position: Int) {
         startActivity(UserDetailActivity.getInstant(activity!!, user))
     }
 
@@ -63,6 +63,7 @@ class FragmentBookmarked : BaseFragment<BookmarkedViewModel.ViewModel>(), ItemDe
         var observable = android.arch.lifecycle.Observer<List<UserEntity>> {
             adapter.removeData()
             adapter.addData(it!!.toMutableList())
+            viewModel!!.data.showNotFoundData.set(it!!.isEmpty())
         }
         viewModel!!.getListLiveData().observe(this, observable)
         viewDataBinding.swipeRefresh.setOnRefreshListener {

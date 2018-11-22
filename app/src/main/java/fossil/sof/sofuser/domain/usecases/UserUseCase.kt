@@ -13,21 +13,22 @@ class UserUseCase(useCaseEnvironment: UseCaseEnvironment) {
     private val apiServices: ApiService = useCaseEnvironment.apiServices
     private val userRepo = useCaseEnvironment.userRepo
 
-    fun getListUser(page: Int) = getListBookMarkUser()
-            .concatMap { listUserBookmarked ->
-                apiServices.getListUser(page).toObservable()
-                        .doOnNext {
-                            if (listUserBookmarked.isNotEmpty())
-                                for (user in listUserBookmarked) {
-                                    for (u in it.getDatas()) {
-                                        if (u.user_id == user.user_id)
-                                            u.isBookmark = true
-                                    }
+    fun getListUser(page: Int) =
+            getListBookMarkUser()
+                    .concatMap { listUserBookmarked ->
+                        apiServices.getListUser(page).toObservable()
+                                .doOnNext {
+                                    if (listUserBookmarked.isNotEmpty())
+                                        for (user in listUserBookmarked) {
+                                            for (u in it.getDatas()) {
+                                                if (u.user_id == user.user_id)
+                                                    u.isBookmark = true
+                                            }
+                                        }
                                 }
-                        }
 
 
-            }
+                    }
 
     fun getListReputation(page: Int, userId: String) = apiServices.getReputation(page, userId).toObservable()
     fun bookMarkUser(user: UserEntity) = userRepo.insert(user).toObservable().subscribeOn(Schedulers.io())

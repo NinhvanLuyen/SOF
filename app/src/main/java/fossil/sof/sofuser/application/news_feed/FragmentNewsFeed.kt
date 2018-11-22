@@ -65,11 +65,10 @@ class FragmentNewsFeed : BaseFragment<NewFeedViewModel.ViewModel>(), ItemDelegat
                 .compose(bindToLifecycle())
                 .compose(Transformers.observeForUI())
                 .subscribe { viewDataBinding.swipeRefresh.isRefreshing = it }
-//        var observable = android.arch.lifecycle.Observer<List<UserEntity>> {
-//            adapter.removeData()
-//            adapter.notifySingleItemChange(it!!.toMutableList(), userViewDetail)
-//        }
-//        viewModel!!.getListLiveData().observe(this, observable)
+        var observable = android.arch.lifecycle.Observer<List<UserEntity>> {
+            adapter.searchAndNotifyItemChange(it!!.toMutableList())
+        }
+        viewModel!!.getListLiveData().observe(this, observable)
 
         viewDataBinding.swipeRefresh.setOnRefreshListener {
             adapter.removeData()

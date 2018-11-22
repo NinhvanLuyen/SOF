@@ -1,6 +1,7 @@
 package fossil.sof.sofuser.data.room_repository
 
 import android.app.Application
+import android.content.res.Resources
 import fossil.sof.sofuser.data.MyRoomDB
 import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.data.room_dao.UserDao
@@ -39,8 +40,7 @@ class UserRepo(application: Application) {
 
     fun getAll(): Single<MutableList<UserEntity>> {
         return Single.create {
-            if (userDao.getAll().isNotEmpty())
-                it.onSuccess(userDao.getAll().toMutableList())
+            it.onSuccess(userDao.getAll().toMutableList())
         }
     }
 

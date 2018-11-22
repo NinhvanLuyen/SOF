@@ -70,4 +70,22 @@ class UserAdapter(var delegate: ItemDelegate) : BaseAdapter() {
         (sections[DATA] as MutableList<UserEntity>)[position] = userViewDetail
         notifyItemChanged(position)
     }
+
+    fun searchAndNotifyItemChange(listBookmarked: MutableList<UserEntity>) {
+        for ((index, user) in (sections[DATA] as MutableList<UserEntity>).withIndex()) {
+            var isFounded = false
+            if (user.isBookmark) {
+                for (u in listBookmarked) {
+                    if (u.user_id == user.user_id) {
+                        isFounded = true
+                    }
+                }
+                Timber.e("isFounded is $isFounded")
+                if (!isFounded) {
+                    (sections[DATA] as MutableList<UserEntity>)[index].isBookmark = false
+                    notifyItemChanged(index)
+                }
+            }
+        }
+    }
 }
