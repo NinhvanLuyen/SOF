@@ -39,25 +39,5 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="TitleStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:textSize">@dimen/text_size_textview_l</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:layout_marginRight">?attr/actionBarSize</item>
-    </style>
-
-
-    <style name="text_content">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_size_textview_m</item>
-        <item name="android:layout_marginBottom">@dimen/activity_small_margin</item>
-        <item name="android:layout_marginLeft">@dimen/activity_small_margin</item>
-        <item name="android:layout_marginRight">@dimen/activity_small_margin</item>
-        <item name="android:textColor">@color/gray</item>
-    </style>
 
 </resources>
