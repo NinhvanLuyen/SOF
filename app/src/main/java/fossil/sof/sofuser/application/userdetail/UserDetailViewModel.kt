@@ -1,4 +1,4 @@
-package fossil.sof.sofuser.application.user_detail
+package fossil.sof.sofuser.application.userdetail
 
 import android.databinding.ObservableField
 import android.view.View

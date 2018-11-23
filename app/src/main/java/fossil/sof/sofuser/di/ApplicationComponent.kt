@@ -14,5 +14,4 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun environment(): Environment
     fun inject(app: App)
-//    fun inject(listener: ConnectionListener)
 }

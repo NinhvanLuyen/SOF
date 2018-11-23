@@ -128,22 +128,6 @@ open class AppModules(private val application: Application) {
         if (Configs.IS_DEBUG)
             builder.addInterceptor(loggingInterceptor)
 //        builder.addInterceptor()
-        val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
-
-            override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
-
-            @Throws(CertificateException::class)
-            override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-            }
-
-            @Throws(CertificateException::class)
-            override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-            }
-        })
-        val noSSLv3Factory = TLSSocketFactory()
-        HttpsURLConnection.setDefaultSSLSocketFactory(noSSLv3Factory)
-        builder.sslSocketFactory(noSSLv3Factory, trustAllCerts[0] as X509TrustManager)
-
 
         return builder
                 .cookieJar(cookieJar)

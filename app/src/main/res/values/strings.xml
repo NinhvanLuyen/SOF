@@ -4,6 +4,7 @@
     <string name="OK">OK</string>
     <string name="tag">tag</string>
     <string name="user_detail">User Detail</string>
-    <string name="no_data">No Data</string>
+    <string name="no_data">Click start button to bookmark user</string>
     <string name="try_again">try again</string>
+    <string name="show_only_bookmarked">Show only user bookmarked</string>
 </resources>

@@ -1,4 +1,4 @@
-package fossil.sof.sofuser.application.news_feed
+package fossil.sof.sofuser.application.newsfeed
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -7,16 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fossil.sof.sofuser.R
-import fossil.sof.sofuser.application.book_mark.BookmarkAdapter
-import fossil.sof.sofuser.application.user_detail.UserDetailActivity
-import fossil.sof.sofuser.databinding.FragmentNewsFeedBinding
+import fossil.sof.sofuser.application.bookmark.BookmarkAdapter
+import fossil.sof.sofuser.application.userdetail.UserDetailActivity
 import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.databinding.FragmentBookmarkedBinding
 import fossil.sof.sofuser.libs.BaseFragment
-import fossil.sof.sofuser.libs.RecyclerViewPaginator
 import fossil.sof.sofuser.libs.qualifers.RequireFragmentViewModel
 import fossil.sof.sofuser.libs.tranforms.Transformers
-import timber.log.Timber
 
 @RequireFragmentViewModel(BookmarkedViewModel.ViewModel::class)
 class FragmentBookmarked : BaseFragment<BookmarkedViewModel.ViewModel>(), ItemDelegate {
@@ -43,7 +40,10 @@ class FragmentBookmarked : BaseFragment<BookmarkedViewModel.ViewModel>(), ItemDe
         super.onCreateView(inflater, container, savedInstanceState)
         viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_bookmarked, container, false)
         viewDataBinding.viewModel = viewModel
-        viewDataBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        var ll = LinearLayoutManager(activity)
+        ll.reverseLayout = true
+        ll.stackFromEnd = true
+        viewDataBinding.recyclerView.layoutManager = ll
         viewDataBinding.recyclerView.adapter = adapter
         viewModel!!.output.renderData
                 .compose(Transformers.observeForUI())
@@ -59,16 +59,16 @@ class FragmentBookmarked : BaseFragment<BookmarkedViewModel.ViewModel>(), ItemDe
                 .compose(bindToLifecycle())
                 .compose(Transformers.observeForUI())
                 .subscribe { viewDataBinding.swipeRefresh.isRefreshing = it }
-
+        adapter.getScrollToTop().subscribe {
+            viewDataBinding.recyclerView.smoothScrollToPosition(adapter.itemCount)
+        }
         var observable = android.arch.lifecycle.Observer<List<UserEntity>> {
-            adapter.removeData()
-            adapter.addData(it!!.toMutableList())
+            adapter.searchAndNotifyItemChange(it!!.toMutableList())
             viewModel!!.data.showNotFoundData.set(it!!.isEmpty())
         }
         viewModel!!.getListLiveData().observe(this, observable)
         viewDataBinding.swipeRefresh.setOnRefreshListener {
             adapter.removeData()
-//            viewDataBinding.recyclerView.recycledViewPool.clear();
             viewModel!!.input.swipeRefresh()
         }
         return viewDataBinding.root

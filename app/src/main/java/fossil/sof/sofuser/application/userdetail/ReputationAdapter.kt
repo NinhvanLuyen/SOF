@@ -1,41 +1,40 @@
-package fossil.sof.sofuser.application.news_feed
+package fossil.sof.sofuser.application.userdetail
 
 import android.view.View
 import fossil.sof.sofuser.R
-import fossil.sof.sofuser.data.entities.UserEntity
+import fossil.sof.sofuser.domain.models.Reputation
 import fossil.sof.sofuser.libs.BaseAdapter
 import fossil.sof.sofuser.libs.BaseViewHolder
 import fossil.sof.sofuser.libs.BlankViewHolder
-import timber.log.Timber
 
-class UserAdapter(var delegate: ItemDelegate) : BaseAdapter() {
+class ReputationAdapter(): BaseAdapter() {
     private val DATA = 0
     private val LOAD = 1
 
     init {
-        insertSection(DATA, mutableListOf<UserEntity>())
+        insertSection(DATA, mutableListOf<Reputation>())
         insertSection(LOAD, mutableListOf<Any>())
 
     }
 
     override fun layout(sectionRow: SectionRow): Int {
         return if (sectionRow.section == DATA)
-            R.layout.item_user
+            R.layout.item_reputation
         else
             R.layout.item_loading
     }
 
     override fun viewHolder(layout: Int, view: View): BaseViewHolder {
-        return if (layout == R.layout.item_user)
-            ItemUserViewHolder(view, delegate)
+        return if (layout == R.layout.item_reputation)
+            ItemReputationViewHolder(view)
         else
             BlankViewHolder(view)
     }
 
-    fun addData(datas: List<UserEntity>, loadMore: Boolean) {
+    fun addData(datas: List<Reputation>, loadMore: Boolean) {
         if (datas.isNotEmpty()) {
             val currentPosition = sections[DATA].size + 1
-            (sections[DATA] as MutableList<UserEntity>).addAll(datas)
+            (sections[DATA] as MutableList<Reputation>).addAll(datas)
             if (loadMore) {
                 if (sections[LOAD].isEmpty()) {
                     (sections[LOAD] as MutableList<Any>).add(Any())
@@ -58,34 +57,9 @@ class UserAdapter(var delegate: ItemDelegate) : BaseAdapter() {
             }
         }
     }
-
     fun removeData() {
-        setSection(DATA, mutableListOf<UserEntity>())
+        setSection(DATA, mutableListOf<Reputation>())
         setSection(LOAD, mutableListOf<Any>())
         notifyDataSetChanged()
-    }
-
-    fun notifySingleItemChange(userViewDetail: UserEntity, position: Int) {
-        Timber.e("data changed at $position checked is ${userViewDetail.isBookmark}")
-        (sections[DATA] as MutableList<UserEntity>)[position] = userViewDetail
-        notifyItemChanged(position)
-    }
-
-    fun searchAndNotifyItemChange(listBookmarked: MutableList<UserEntity>) {
-        for ((index, user) in (sections[DATA] as MutableList<UserEntity>).withIndex()) {
-            var isFounded = false
-            if (user.isBookmark) {
-                for (u in listBookmarked) {
-                    if (u.user_id == user.user_id) {
-                        isFounded = true
-                    }
-                }
-                Timber.e("isFounded is $isFounded")
-                if (!isFounded) {
-                    (sections[DATA] as MutableList<UserEntity>)[index].isBookmark = false
-                    notifyItemChanged(index)
-                }
-            }
-        }
     }
 }

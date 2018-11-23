@@ -22,7 +22,7 @@ class UserUseCase(useCaseEnvironment: UseCaseEnvironment) {
                                         for (user in listUserBookmarked) {
                                             for (u in it.getDatas()) {
                                                 if (u.user_id == user.user_id)
-                                                    u.isBookmark = true
+                                                    u.isBookmark = user.isBookmark
                                             }
                                         }
                                 }

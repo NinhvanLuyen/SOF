@@ -5,6 +5,7 @@ import android.content.res.Resources
 import fossil.sof.sofuser.data.MyRoomDB
 import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.data.room_dao.UserDao
+import fossil.sof.sofuser.utils.AppUtils
 import io.reactivex.Single
 
 class UserRepo(application: Application) {
@@ -17,6 +18,8 @@ class UserRepo(application: Application) {
 
     fun insert(user: UserEntity): Single<Boolean> {
         return Single.create {
+            user.isBookmark = true
+            user.insert_time = AppUtils.getTime()
             userDao.insert(user)
             it.onSuccess(true)
         }

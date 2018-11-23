@@ -18,8 +18,9 @@ interface UserDao {
     @Query("DELETE FROM user where `user_id ` = :user_id ")
     fun deleteUser(user_id: Int)
 
-    @Query("SELECT * from user")
+    @Query("SELECT * from user  ORDER BY `insert_time ` ASC")
     fun getAll(): List<UserEntity>
-    @Query("SELECT * from user")
-    fun getAllLiveData():LiveData<List<UserEntity>>
+
+    @Query("SELECT * from user ORDER BY `insert_time ` ASC")
+    fun getAllLiveData(): LiveData<List<UserEntity>>
 }

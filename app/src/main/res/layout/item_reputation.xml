@@ -6,7 +6,7 @@
 
         <variable
             name="viewHolder"
-            type="fossil.sof.sofuser.application.user_detail.ItemReputationViewHolder" />
+            type="fossil.sof.sofuser.application.userdetail.ItemReputationViewHolder" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

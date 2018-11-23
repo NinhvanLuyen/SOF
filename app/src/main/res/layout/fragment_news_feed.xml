@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="fossil.sof.sofuser.application.news_feed.NewFeedViewModel.ViewModel" />
+            type="fossil.sof.sofuser.application.newsfeed.NewFeedViewModel.ViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,24 +25,54 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:id="@+id/filter"
+                    android:background="@color/colorPrimary"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/show_only_bookmarked" />
+
+                    <com.like.LikeButton
+                        android:id="@+id/icon_filter"
+                        android:layout_width="@dimen/icon_star_small"
+                        android:layout_height="@dimen/icon_star_small"
+                        android:layout_margin="@dimen/activity_ssmall_margin"
+                        app:like_drawable="@drawable/star_on"
+                        app:unlike_drawable="@drawable/ic_star_border"
+                        app:icon_type="Star" />
+                </LinearLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:visibility="@{(viewModel.data.showError||viewModel.data.showLoading)?View.GONE:View.VISIBLE}" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewBookmarked"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="@{viewModel.data.showLoading?View.VISIBLE:View.GONE, default =gone}">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <ProgressBar
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="loadding..." />
+                        android:layout_gravity="center"/>
                 </FrameLayout>
 
                 <TextView

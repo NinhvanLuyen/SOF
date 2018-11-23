@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="fossil.sof.sofuser.application.user_detail.UserDetailViewModel.ViewModel" />
+            type="fossil.sof.sofuser.application.userdetail.UserDetailViewModel.ViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -46,8 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/activity_ssmall_margin"
-                        android:orientation="vertical"
-                        android:paddingTop="@dimen/activity_small_margin">
+                        android:orientation="vertical">
 
                         <FrameLayout
                             android:layout_width="match_parent"

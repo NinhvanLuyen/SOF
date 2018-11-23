@@ -1,4 +1,4 @@
-package fossil.sof.sofuser.application.news_feed
+package fossil.sof.sofuser.application.newsfeed
 
 import android.databinding.DataBindingUtil
 import android.databinding.ObservableField
@@ -9,6 +9,7 @@ import fossil.sof.sofuser.databinding.ItemUserBinding
 import fossil.sof.sofuser.data.entities.UserEntity
 import fossil.sof.sofuser.libs.BaseViewHolder
 import fossil.sof.sofuser.utils.UIUtils
+import timber.log.Timber
 
 class ItemUserViewHolder(view: View, var delegate: ItemDelegate) : BaseViewHolder(view) {
     var avatar = ObservableField<String>()
@@ -46,7 +47,7 @@ class ItemUserViewHolder(view: View, var delegate: ItemDelegate) : BaseViewHolde
     }
 
     override fun onClick(p0: View?) {
-        delegate.viewDetailUser(user,layoutPosition)
+        delegate.viewDetailUser(user, layoutPosition)
 
     }
 

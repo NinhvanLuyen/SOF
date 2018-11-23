@@ -1,4 +1,4 @@
-package fossil.sof.sofuser.application.news_feed
+package fossil.sof.sofuser.application.newsfeed
 
 import fossil.sof.sofuser.data.entities.UserEntity
 

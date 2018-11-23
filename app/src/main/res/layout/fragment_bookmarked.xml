@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="fossil.sof.sofuser.application.news_feed.BookmarkedViewModel.ViewModel" />
+            type="fossil.sof.sofuser.application.newsfeed.BookmarkedViewModel.ViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"

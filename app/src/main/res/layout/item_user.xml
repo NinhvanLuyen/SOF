@@ -6,7 +6,7 @@
 
         <variable
             name="viewHolder"
-            type="fossil.sof.sofuser.application.news_feed.ItemUserViewHolder" />
+            type="fossil.sof.sofuser.application.newsfeed.ItemUserViewHolder" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,4 +1,4 @@
-package fossil.sof.sofuser.application.user_detail
+package fossil.sof.sofuser.application.userdetail
 
 import android.app.Activity
 import android.content.Intent
@@ -37,10 +37,12 @@ class UserDetailActivity : BaseActivity<UserDetailViewModel.ViewModel>() {
         viewDataBinding.likeButton.setOnLikeListener(object : OnLikeListener {
             override fun liked(p0: LikeButton?) {
                 viewModel!!.input.bookmarkUser()
+                viewDataBinding.likeButton1.isLiked =true
             }
 
             override fun unLiked(p0: LikeButton?) {
                 viewModel!!.input.unBookmarkUser()
+                viewDataBinding.likeButton1.isLiked =false
 
             }
 
@@ -48,11 +50,13 @@ class UserDetailActivity : BaseActivity<UserDetailViewModel.ViewModel>() {
         viewDataBinding.likeButton1.setOnLikeListener(object : OnLikeListener {
             override fun liked(p0: LikeButton?) {
                 viewModel!!.input.bookmarkUser()
+                viewDataBinding.likeButton.isLiked =true
 
             }
 
             override fun unLiked(p0: LikeButton?) {
                 viewModel!!.input.unBookmarkUser()
+                viewDataBinding.likeButton.isLiked =false
 
             }
 

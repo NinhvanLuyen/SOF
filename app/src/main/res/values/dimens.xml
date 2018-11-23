@@ -14,6 +14,7 @@
     <dimen name="text_size_textview_l">18sp</dimen>
     <dimen name="text_size_textview_xl">22sp</dimen>
 
+    <dimen name="icon_star_small">40dp</dimen>
     <dimen name="height_button">40dp</dimen>
     <dimen name="height_button_xl">50dp</dimen>
     <dimen name="zoom">60dp</dimen>

@@ -4,9 +4,8 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import fossil.sof.sofuser.R
-import fossil.sof.sofuser.application.news_feed.FragmentBookmarked
-import fossil.sof.sofuser.application.news_feed.FragmentNewsFeed
-import fossil.sof.sofuser.data.entities.UserEntity
+import fossil.sof.sofuser.application.newsfeed.FragmentBookmarked
+import fossil.sof.sofuser.application.newsfeed.FragmentNewsFeed
 import fossil.sof.sofuser.databinding.ActivityMainBinding
 import fossil.sof.sofuser.libs.BaseActivity
 import fossil.sof.sofuser.libs.qualifers.RequireActivityViewModel

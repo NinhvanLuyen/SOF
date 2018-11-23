@@ -35,20 +35,20 @@ class DialogManager {
                     .setPositiveButton(action, listener)
                     .create().show()
         }
-
-        fun showActionDialogNotClose(message: String, action: String, context: Context, listener: DialogInterface.OnClickListener) {
-            val textView = TextView(context, null, R.style.TextViewStyle)
-            textView.typeface = UIUtils.getTypeFace(context)
-            textView.text = message
-            val margin = context.resources.getDimension(R.dimen.activity_margin).toInt()
-            textView.setPadding(margin, margin, margin, 0)
-
-            AlertDialog.Builder(context)
-                    .setView(textView)
-                    .setCancelable(false)
-                    .setPositiveButton(action, listener)
-                    .create().show()
-        }
+//
+//        fun showActionDialogNotClose(message: String, action: String, context: Context, listener: DialogInterface.OnClickListener) {
+//            val textView = TextView(context, null, R.style.TextViewStyle)
+//            textView.typeface = UIUtils.getTypeFace(context)
+//            textView.text = message
+//            val margin = context.resources.getDimension(R.dimen.activity_margin).toInt()
+//            textView.setPadding(margin, margin, margin, 0)
+//
+//            AlertDialog.Builder(context)
+//                    .setView(textView)
+//                    .setCancelable(false)
+//                    .setPositiveButton(action, listener)
+//                    .create().show()
+//        }
 
     }
 }

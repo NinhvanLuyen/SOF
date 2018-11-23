@@ -20,30 +20,15 @@ import java.util.*
  * Created by ninhvanluyen on 16/11/18.
  */
 object AppUtils {
-    /**
-     * Get facebook app id of this app
-     *
-     * @return
-     */
-    fun getFacebookAppID(): String {
-        return App.app.sharedPreferences.getString(PreferencesKeys.FACEBOOK_APP_ID, Constants.EMPTY)
-    }
-
     fun convertLongToStringDate(date: Long): String {
         var fm = SimpleDateFormat("dd-MM-yyyy")
-        var calendar =Calendar.getInstance()
+        var calendar = Calendar.getInstance()
         calendar.time = Date(date)
-        calendar.add(Calendar.SECOND,date.toInt())
+        calendar.add(Calendar.SECOND, date.toInt())
         var date = calendar.time
         return fm.format(date)
     }
 
-    fun isFHD(context: Activity) {
-        val displayMetrics = DisplayMetrics()
-        context.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val width = displayMetrics.widthPixels
-        val height = displayMetrics.heightPixels
-        Timber.e("width_screen is $width")
-        Constants.isFHD = width >= 1080
-    }
+    fun getTime(): Long = GregorianCalendar.getInstance().time.time
+
 }

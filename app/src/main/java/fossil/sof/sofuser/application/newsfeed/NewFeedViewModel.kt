@@ -1,4 +1,4 @@
-package fossil.sof.sofuser.application.news_feed
+package fossil.sof.sofuser.application.newsfeed
 
 import android.databinding.ObservableField
 import fossil.sof.sofuser.data.api.responses.LoadMoreData
@@ -21,6 +21,7 @@ interface NewFeedViewModel {
         fun renderData(): Observable<Pair<List<UserEntity>, Boolean>>
         fun closeSwipe(): Observable<Boolean>
         fun notiMyBookmark(): Observable<UserEntity>
+        fun renderListUserBookmarked(): Observable<MutableList<UserEntity>>
 
 
     }
@@ -31,23 +32,25 @@ interface NewFeedViewModel {
 
     class Data {
         var name = ObservableField<String>()
+        var showNotFoundData = ObservableField<Boolean>(false)
         var showError = ObservableField<Boolean>(false)
         var showLoading = ObservableField<Boolean>(false)
         var error = ObservableField<String>()
     }
 
     class ViewModel(environment: Environment) : FragmentViewModel(), Input, OutPut, Errors {
-
-
         var data = Data()
         var input = this
         var output = this
         var errors = this
         var listDataTerm = arrayListOf<UserEntity>()
+        var listDataUserBookmarkedTerm = arrayListOf<UserEntity>()
         var userUseCase = environment.userUseCase;
         var canLoadmore = true
         var currentPage = 1
         var renderData: BehaviorSubject<Pair<List<UserEntity>, Boolean>> = BehaviorSubject.create()
+        var renderDataUserBookmarked: BehaviorSubject<MutableList<UserEntity>> = BehaviorSubject.create()
+        override fun renderListUserBookmarked(): Observable<MutableList<UserEntity>> = renderDataUserBookmarked
         override fun renderData(): Observable<Pair<List<UserEntity>, Boolean>> = renderData
         private var nextPage = PublishSubject.create<Boolean>()
         private var closeSwipe = PublishSubject.create<Boolean>()
@@ -97,6 +100,7 @@ interface NewFeedViewModel {
                     nextPage.onNext(true)
                 } else {
                     renderData.onNext(Pair(listDataTerm, canLoadmore))
+                    renderDataUserBookmarked.onNext(listDataUserBookmarkedTerm)
                 }
             }
             loadData = callApi.compose<Int>(Transformers.takeWhen(nextPage))
@@ -106,7 +110,10 @@ interface NewFeedViewModel {
                     .compose(bindToLifecycle())
                     .doOnNext {
                         data.showLoading.set(false)
-                        currentPage++
+                        if (it.getHasMore())
+                            currentPage++
+                        else
+                            canLoadmore = false
                         callApi.onNext(currentPage)
                         canLoadmore = (currentPage < 1000)
                         renderData.onNext(Pair(it.getDatas(), canLoadmore))
@@ -114,7 +121,17 @@ interface NewFeedViewModel {
                     }
             loadData.subscribe()
 
+            userUseCase.getListBookMarkUser()
+                    .compose(Transformers.pipeApiErrorTo(apiError))
+                    .compose(bindToLifecycle())
+                    .subscribe {
+                        data.showNotFoundData.set(it.isEmpty())
+                        renderDataUserBookmarked.onNext(it)
+                        listDataUserBookmarkedTerm.addAll(it)
+                    }
+
         }
+
         fun getListLiveData() = userUseCase.getLiveDataUser()
 
         fun call(nextPage: Int): Observable<LoadMoreData<UserEntity>> = userUseCase.getListUser(nextPage)
