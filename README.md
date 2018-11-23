@@ -1,14 +1,5 @@
 # SOF
 You will create an application allow user to view list of StackOverFlow (SOF) user, their reputation history and bookmark their favorite user.
-# SOF (Stack Overflow)
-
-It is written 100% in Kotlin with Unit tests - we will also be keeping this up-to-date as libraries change!
-
-### Disclaimer
-
-Note: The use of clean architecture may seem over-complicated for this sample project. However, this allows us to keep the amount of boilerplate code to a minimum and also demonstrate the approach in a simpler form.
-
-Clean Architecture will not be appropriate for every project, so it is down to you to decide whether or not it fits your needs 🙂
 
 ## Languages, libraries and tools used
 
